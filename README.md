@@ -106,7 +106,7 @@ _i18n JSON to XLSX Converter_ is a tool for developers to create **JSON** file(s
 
 ## Demo
 
-<img src="https://media.giphy.com/media/zidRAnma1I08w4LMlI/giphy.gif" title="i18n JSON to XLSX Converter Demo" width="75%" />
+<img src="https://media.giphy.com/media/zidRAnma1I08w4LMlI/giphy.gif" title="i18n JSON to XLSX Converter Demo" width="100%" />
 
   
 ## Author
