@@ -1,6 +1,7 @@
 
 <br />
 
+![npm](https://img.shields.io/npm/v/i18n-json-to-xlsx-converter?color=brightgreen)
 [![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/tterb/atomic-design-ui/blob/master/LICENSEs)
 [![Open Source Love svg2](https://badges.frapsoft.com/os/v2/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
 
@@ -8,7 +9,6 @@
 # i18n-json-to-xlsx-converter CLI
 
 <img src="https://repository-images.githubusercontent.com/386980704/45fee350-b9fb-4f33-ab05-8519f23c9af5" title="i18n JSON to XLSX Converter Logo" width="50%" />
-<br />
 
 ## About
 
