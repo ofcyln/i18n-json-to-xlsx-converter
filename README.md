@@ -1,9 +1,14 @@
 
 <br />
 
-![npm](https://img.shields.io/npm/v/i18n-json-to-xlsx-converter?color=brightgreen)
-[![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/tterb/atomic-design-ui/blob/master/LICENSEs)
-[![Open Source Love svg2](https://badges.frapsoft.com/os/v2/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
+![npm](https://img.shields.io/npm/v/i18n-json-to-xlsx-converter?color=blue&style=flat-square)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/ofcyln/i18n-json-to-xlsx-converter?color=blue&style=flat-square)
+![GitHub language count](https://img.shields.io/github/languages/count/ofcyln/i18n-json-to-xlsx-converter?color=blue&style=flat-square)
+![GitHub contributors](https://img.shields.io/github/contributors/ofcyln/i18n-json-to-xlsx-converter?color=blue&style=flat-square)
+![npm](https://img.shields.io/npm/dw/i18n-json-to-xlsx-converter?color=blue&style=flat-square)
+![GitHub last commit](https://img.shields.io/github/last-commit/ofcyln/i18n-json-to-xlsx-converter?color=blue&style=flat-square)
+![npms.io (final)](https://img.shields.io/npms-io/maintenance-score/i18n-json-to-xlsx-converter?color=blue&style=flat-square)
+[![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?color=blue&style=flat-square)](https://github.com/tterb/atomic-design-ui/blob/master/LICENSEs)
 
 
 # i18n-json-to-xlsx-converter CLI
