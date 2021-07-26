@@ -3,7 +3,6 @@
 
 ![npm](https://img.shields.io/npm/v/i18n-json-to-xlsx-converter?color=blue&style=flat-square)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/ofcyln/i18n-json-to-xlsx-converter?color=blue&style=flat-square)
-![GitHub language count](https://img.shields.io/github/languages/count/ofcyln/i18n-json-to-xlsx-converter?color=blue&style=flat-square)
 ![GitHub contributors](https://img.shields.io/github/contributors/ofcyln/i18n-json-to-xlsx-converter?color=blue&style=flat-square)
 ![npm](https://img.shields.io/npm/dw/i18n-json-to-xlsx-converter?color=blue&style=flat-square)
 ![GitHub last commit](https://img.shields.io/github/last-commit/ofcyln/i18n-json-to-xlsx-converter?color=blue&style=flat-square)
