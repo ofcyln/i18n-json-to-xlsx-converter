@@ -16,7 +16,8 @@
 
 ## About
 
-_i18n JSON to XLSX Converter_ is a CLI tool runs in a terminal, and helps you to convert a **JSON** file to an **EXCEL** file with dot notation keys column and a column of the values of these keys. Or convert an **EXCEL** file which has one or more translation columns in it to **JSON** file(s), in no time.
+_i18n JSON to XLSX Converter_ is a CLI tool runs in a terminal, and helps you to convert a **JSON** file to an **EXCEL** sheet with dot notation keys column, and a values column of these keys.
+Also, the CLI tool converts an **EXCEL** sheet whether or not it has one or more translation columns, to **JSON** file(s), easily.
 
 ## Installation
 
@@ -55,17 +56,17 @@ _i18n JSON to XLSX Converter_ created for helping developers for generating an E
 
 #### Features
 
-- It can convert nested i18n JSON file to an EXCEL file
-- It can convert an EXCEL file to a JSON file, or files easily
-- It runs in a terminal as a CLI
-- User friendly
-- Well tested
+- It can convert nested i18n **JSON** file to an **EXCEL** sheet
+- It can convert an **EXCEL** sheet to **JSON** file(s) easily
+- It runs in a terminal
+- Well tested, and documented
 
-#### Reason behind converting a JSON file to an XLSX file
+#### Reason behind converting a JSON file to an XLSX sheet
 
-Multilingual applications need translation files in the projects. Hence, developers needs language files in JSON file format(s), and these JSON files need to have translation values for each key. Usually different teams are handling the translation values, and they can't work on the JSON files since they are not specialized on the development field. 
+A multilingual application, needs translation files in the project to support multiple languages.
+Hence, developers need language files in **JSON** file format, and these **JSON** files need to have translation values for each key.  
 
-> Assume that we have a **JSON** file names as `en.json`, and it has a content as
+> Assume that we have a **JSON** file name as `en.json`, and it has a content as
 > 
 > ```json
 >     {
@@ -79,9 +80,13 @@ Multilingual applications need translation files in the projects. Hence, develop
 >     }
 > ```
 
-Since most of them can work on the **EXCEL** easily, this tool helps developers to provide an **EXCEL** file for them to fill in the translations. They can fill the **EXCEL** file with one, or many translation columns they want to provide, and send it back to the developers. 
+Since different teams are handling the translations, and they can't work on the **JSON** files because they are not specialized on the app development, most of them can work on an **EXCEL** sheet easily.
 
-> If they fill out the values in the **EXCEL** file for only one language column for example `EN`, the file needs to be in the format of
+_i18n JSON to XLSX Converter_ CLI tool helps developers to provide an **EXCEL** sheet ready to include translations for the other teams. It can be filled as an **EXCEL** file with one, or many translation columns they want to provide, and when the translation value implementation is finished, developers can get back the sheet, and convert the **EXCEL** sheet into **JSON** format again, easily.
+
+If the provided **EXCEL** sheet has only one translation value column, the output **JSON** file will be only one, and it will have the column title as file name. In this case it'll be `en.json`
+
+> If the translation team fill out the values in the **EXCEL** sheet for only one language column for example `EN`, in this case the sheet needs to be in the format of
 > 
 > | Key | EN     |
 > | :-------- | :------- |
@@ -90,10 +95,10 @@ Since most of them can work on the **EXCEL** easily, this tool helps developers 
 > | `nestedObject.nameOfTheArea.title` | `Context` |
 > 
 
-If the provided **EXCEL** file has only one translation value column, the output **JSON** file will be only one, and it will have the column title as file name. In this case it'll be `en.json`.
+If the provided **EXCEL** sheet has multiple translation value columns, the output **JSON** files will be multiple, and they will have the column titles as file names. In this case they'll be `en.json`, `nl.json`, `de.json`, 
 
 >
-> If they fill out the values in the **EXCEL** file for multiple language column for example `EN`, `NL`, `DE`, the file needs to be in the format of
+> If the translation team fill out the values in the **EXCEL** sheet for multiple language column for example `EN`, `NL`, `DE`, in this case the sheet needs to be in the format of
  > 
  > | Key | EN     | NL     | DE     |
  > | :-------- | :------- | :------- | :------- |
@@ -102,10 +107,7 @@ If the provided **EXCEL** file has only one translation value column, the output
  > | `nestedObject.nameOfTheArea.title` | `Context` | `Context` | `Kontext` |
  > 
 
-
-If the provided **EXCEL** file has multiple translation value columns, the output **JSON** files will be multiple, and they will have the column titles as file names. In this case they'll be `en.json`, `nl.json`, `de.json`
-
-_i18n JSON to XLSX Converter_ is a tool for developers to create **JSON** file(s) with no effort in the end.
+_i18n JSON to XLSX Converter_ will remove the manual labor for developers to create **JSON** file(s) from an **EXCEL** sheet, and also will help developers to create an **EXCEL** sheet from a **JSON** file for the translation teams, easily.
 
 
 ## Demo
