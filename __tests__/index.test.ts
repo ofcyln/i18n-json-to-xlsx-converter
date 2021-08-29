@@ -1,7 +1,7 @@
 const execa = require("execa");
 
 describe("Retail translation tool CLI", () => {
-  describe("in succes state", () => {
+  describe("in success state", () => {
     test("does run without an error and converts the XLSX file when arguments are correct", async () => {
       let response = { stdout: "", stderr: "" };
 

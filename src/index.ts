@@ -12,19 +12,26 @@ import utils from './utils';
     const filePath = utils.createPathByCheckingSpaceCharacter(path);
 
     if (!filePath || typeof filePath === 'boolean') {
-      utils.stopProcessWithAMessage('No file path to convert is given. Specify the file path after the --convert parameter.', process);
+      utils.parseErrorMessage('No file path to convert is given. Specify the file path after the --convert parameter.');
+      process.exit(1);
     }
 
     const sourceFileType = utils.getSourceFileType(filePath);
+    const isMultipleJSONFilePaths = utils.getJSONFilePaths(filePath).length > 1;
+    const isMultipleJSONFilePathsValid = utils.isMultipleJSONFilePathsValid(filePath);
 
-    if (utils.isJSON(sourceFileType) || utils.isXLSX(sourceFileType)) {
-      utils.createProcessMessageByType(filePath, sourceFileType);
+    if (utils.isJSON(sourceFileType) || utils.isXLSX(sourceFileType) || isMultipleJSONFilePathsValid) {
+      utils.createProcessMessageByType(filePath, sourceFileType, (isMultipleJSONFilePathsValid && isMultipleJSONFilePaths));
+
     } else {
-      utils.stopProcessWithAMessage('File type is not supported. Either use JSON or XLSX file to convert.', process);
+      utils.checkForMultipleJSONFileErrors(filePath, process);
+
+      utils.parseErrorMessage('File type is not supported. Either use JSON or XLSX file to convert.');
+      process.exit(1);
     }
 
     if (utils.isXLSX(sourceFileType)) {
-      const readXls = () => {
+      const readXlsx = () => {
         return readXLSXFile(filePath).then((rows: string[][]) => {
           const titleRow = rows[0];
           const allLanguages: any = {};
@@ -52,7 +59,7 @@ import utils from './utils';
         });
       };
 
-      readXls()
+      readXlsx()
         .then((allLanguages: any) => {
           let outputFileName = '';
 
@@ -76,62 +83,66 @@ import utils from './utils';
           process.exit(1);
         });
     } else {
-      const sourceBuffer = await fs.promises.readFile(filePath);
-      const sourceText = sourceBuffer.toString();
-      const sourceData = JSON.parse(sourceText);
-      const workbook = new Excel.Workbook();
-      const worksheet = workbook.addWorksheet('Converted');
-      let rowCount = 1;
+      const JSONFiles = utils.getJSONFilePaths(filePath);
 
-      const write = (key: string, value: string) => {
-        const rows = worksheet.getRow(rowCount);
+      for(const JSONFile of JSONFiles!) {
+        const sourceBuffer = await fs.promises.readFile(JSONFile);
+        const sourceText = sourceBuffer.toString();
+        const sourceData = JSON.parse(sourceText);
+        const workbook = new Excel.Workbook();
+        const worksheet = workbook.addWorksheet('Converted');
+        let rowCount = 1;
 
-        rows.getCell(1).value = key;
+        const writeToXLSX = (key: string, value: string) => {
+          const rows = worksheet.getRow(rowCount);
 
-        // Check for null, "" of the values and assign semantic character for that
-        rows.getCell(2).value = (value || '-').toString();
+          rows.getCell(1).value = key;
 
-        rowCount += 1;
-      };
+          // Check for null, "" of the values and assign semantic character for that
+          rows.getCell(2).value = (value || '-').toString();
 
-      write('Key', utils.getFileName(filePath).toUpperCase());
+          rowCount += 1;
+        };
 
-      const parseAndWrite = (parentKey: string | null, targetObject: any) => {
-        const keys = Object.keys(targetObject);
+        writeToXLSX('Key', utils.getFileName(JSONFile).toUpperCase());
 
-        for (const key of keys as string[]) {
-          const element: any = targetObject[key];
+        const parseAndWrite = (parentKey: string | null, targetObject: any) => {
+          const keys = Object.keys(targetObject);
 
-          if (typeof element === 'object' && element !== null) {
-            parseAndWrite(utils.writeByCheckingParent(parentKey, key), element);
-          } else {
-            write(utils.writeByCheckingParent(parentKey, key), element);
+          for (const key of keys as string[]) {
+            const element: any = targetObject[key];
+
+            if (typeof element === 'object' && element !== null) {
+              parseAndWrite(utils.writeByCheckingParent(parentKey, key), element);
+            } else {
+              writeToXLSX(utils.writeByCheckingParent(parentKey, key), element);
+            }
           }
-        }
-      };
+        };
 
-      parseAndWrite(null, sourceData);
+        parseAndWrite(null, sourceData);
 
-      worksheet.getColumn(1).width = 50;
-      worksheet.getColumn(2).width = 50;
+        worksheet.getColumn(1).width = 50;
+        worksheet.getColumn(2).width = 50;
 
-      await workbook.xlsx
-        .writeFile(utils.documentSavePath(filePath, `${utils.getFileName(filePath)}.xlsx`))
-        .then(() => {
-          utils.log(chalk.yellow(`Output file name is ${utils.getFileName(filePath)}${utils.getFileExtension(filePath)}`));
-          utils.log(chalk.grey(`Location of the created file is`));
-          utils.log(
-            chalk.magentaBright(
-              `${utils.documentSavePath(filePath, `${utils.getFileName(filePath)}${utils.getFileExtension(filePath)}`)}\n`,
-            ),
-          );
-          utils.log(chalk.green(`File conversion is successful!\n`));
-        })
-        .catch((e: Error) => {
-          utils.error(chalk.red(`Error: ${e}`));
+        await workbook.xlsx
+          .writeFile(utils.documentSavePath(JSONFile, `${utils.getFileName(JSONFile)}.xlsx`))
+          .then(() => {
+            utils.log(chalk.yellow(`Output file name is ${utils.getFileName(JSONFile)}${utils.getFileExtension(JSONFile)}`));
+            utils.log(chalk.grey(`Location of the created file is`));
+            utils.log(
+              chalk.magentaBright(
+                `${utils.documentSavePath(JSONFile, `${utils.getFileName(JSONFile)}${utils.getFileExtension(JSONFile)}`)}\n`,
+              ),
+            );
+            utils.log(chalk.green(`File conversion is successful!\n`));
+          })
+          .catch((e: Error) => {
+            utils.error(chalk.red(`Error: ${e}`));
 
-          process.exit(1);
-        });
+            process.exit(1);
+          });
+      }
     }
   } catch (e) {
     utils.error(chalk.red(`Error: ${e}`));

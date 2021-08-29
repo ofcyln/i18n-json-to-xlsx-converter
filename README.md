@@ -16,8 +16,8 @@
 
 ## About
 
-_i18n JSON to XLSX Converter_ is a CLI tool runs in a terminal, and helps you to convert a **JSON** file to an **EXCEL** sheet with dot notation keys column, and a values column of these keys.
-Also, the CLI tool converts an **EXCEL** sheet whether or not it has one or more translation columns, to **JSON** file(s), easily.
+_i18n JSON to XLSX Converter_ is a CLI tool runs in a terminal, and helps you to convert a **JSON** file(s) to **EXCEL** sheet(s) including keys column defined as nested with dot notation, and the values column for those keys.
+Also, the CLI tool converts an **EXCEL** sheet to **JSON** file(s) by considering its values columns as individual files.
 
 ## Installation
 
@@ -39,6 +39,17 @@ If you haven't installed _i18n JSON to XLSX Converter_ you can use it with the c
 
 ```bash
    npx i18n-json-to-xlsx-converter --convert 'file path of the JSON or XLSX file'
+```
+
+
+_i18n JSON to XLSX Converter_ examines and understands your XLSX files if it has multiple language value columns, then it creates one or multiple JSON files from that translation columns provided.
+
+---
+
+If you want to convert multiple JSON files at once, use comma between each file paths provided
+
+```bash
+   npx i18n-json-to-xlsx-converter --convert 'filePathOne.json, filePathTwo.json'
 ```
 
 ## Running Tests
@@ -107,7 +118,7 @@ If the provided **EXCEL** sheet has multiple translation value columns, the ou
  > | `nestedObject.nameOfTheArea.title` | `Context` | `Context` | `Kontext` |
  > 
 
-_i18n JSON to XLSX Converter_ will remove the manual labor for developers to create **JSON** file(s) from an **EXCEL** sheet, and also will help developers to create an **EXCEL** sheet from a **JSON** file for the translation teams, easily.
+_i18n JSON to XLSX Converter_ will remove the manual labor for developers to create **JSON** file(s) from an **EXCEL** sheet, also will help developers to create one or more **EXCEL** sheet(s) from a **JSON** file(s) for the translation teams, easily.
 
 
 ## Demo

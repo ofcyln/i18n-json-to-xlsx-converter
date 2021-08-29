@@ -22,10 +22,13 @@ declare const _default: {
     isJSON: (sourceFileType: string) => boolean;
     isXLSX: (sourceFileType: string) => boolean;
     getSourceFileType: (filePath: string) => string;
-    stopProcessWithAMessage: (message: string, process: NodeJS.Process) => never;
-    createProcessMessageByType: (filePath: string, sourceFileType: string) => void;
+    parseErrorMessage: (message: string) => void;
+    createProcessMessageByType: (filePath: string, sourceFileType: string, isMultipleJSONFilesValid?: boolean) => void;
     addKeyConnectors: (arr: string[]) => string;
     writeByCheckingParent: (parentKey: string | null, key: string) => string;
     createPathByCheckingSpaceCharacter: (path: string | string[]) => string;
+    isMultipleJSONFilePathsValid: (filePath: string) => boolean;
+    checkForMultipleJSONFileErrors: (filePath: string, process: NodeJS.Process) => void;
+    getJSONFilePaths: (filePath: string) => string[];
 };
 export default _default;

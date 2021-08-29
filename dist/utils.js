@@ -34,14 +34,13 @@ const getFileExtension = (filePath) => {
     const sourceFileType = (filePath.split('.')[1] || '').toLowerCase();
     return !isXLSX(sourceFileType) ? '.xlsx' : '.json';
 };
-const stopProcessWithAMessage = (message, process) => {
-    warn(red(message));
-    process.exit(1);
+const parseErrorMessage = (message) => {
+    return warn(red(message));
 };
-const createProcessMessageByType = (filePath, sourceFileType) => {
-    info(yellow(sourceFileType === 'xlsx'
+const createProcessMessageByType = (filePath, sourceFileType, isMultipleJSONFilesValid = false) => {
+    return info(yellow(sourceFileType === 'xlsx'
         ? `\nProcessing! \nConverting XLSX to JSON for the file \n${filePath}\n`
-        : `\nProcessing! \nconverting JSON to XLSX for the file \n${filePath}\n`));
+        : `\nProcessing! \nConverting JSON to XLSX for the file${isMultipleJSONFilesValid ? 's' : ''} \n${filePath}\n`));
 };
 const addKeyConnectors = (arr) => {
     return arr.join('.');
@@ -68,6 +67,32 @@ const createPathByCheckingSpaceCharacter = (path) => {
         return concatenatedPath;
     }
 };
+const checkForMultipleJSONFileErrors = (filePath, process) => {
+    const multipleJSON = filePath.split(',');
+    if (multipleJSON.length > 1) {
+        const isMultiplePathCorrect = multipleJSON.every(jsonFilePathName => jsonFilePathName.includes('.json'));
+        if (!isMultiplePathCorrect) {
+            const isOneJSONPath = multipleJSON.some(jsonFilePathName => jsonFilePathName.includes('.json'));
+            if (isOneJSONPath) {
+                error(red('One of the multiple path entries of the JSON file path is wrong.'));
+                process.exit(1);
+            }
+            else if (!isOneJSONPath) {
+                error(red('Multiple file conversion only works for JSON files.'));
+                process.exit(1);
+            }
+        }
+    }
+};
+const isMultipleJSONFilePathsValid = (filePath) => {
+    const multipleJSON = filePath.split(',');
+    return multipleJSON.length > 1 && multipleJSON.every(jsonFilePathName => jsonFilePathName.includes('.json'));
+};
+const getJSONFilePaths = (filePath) => {
+    return filePath
+        .split(',')
+        .map(JSONFilePath => JSONFilePath.trim());
+};
 exports.default = {
     log,
     warn,
@@ -79,9 +104,12 @@ exports.default = {
     isJSON,
     isXLSX,
     getSourceFileType,
-    stopProcessWithAMessage,
+    parseErrorMessage,
     createProcessMessageByType,
     addKeyConnectors,
     writeByCheckingParent,
     createPathByCheckingSpaceCharacter,
+    isMultipleJSONFilePathsValid,
+    checkForMultipleJSONFileErrors,
+    getJSONFilePaths,
 };

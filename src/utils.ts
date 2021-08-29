@@ -42,18 +42,16 @@ const getFileExtension = (filePath: string) => {
   return !isXLSX(sourceFileType) ? '.xlsx' : '.json';
 };
 
-const stopProcessWithAMessage = (message: string, process: NodeJS.Process) => {
-  warn(red(message));
-
-  process.exit(1);
+const parseErrorMessage = (message: string) => {
+  return warn(red(message));
 };
 
-const createProcessMessageByType = (filePath: string, sourceFileType: string) => {
-  info(
+const createProcessMessageByType = (filePath: string, sourceFileType: string, isMultipleJSONFilesValid: boolean = false) => {
+  return info(
     yellow(
       sourceFileType === 'xlsx'
         ? `\nProcessing! \nConverting XLSX to JSON for the file \n${filePath}\n`
-        : `\nProcessing! \nconverting JSON to XLSX for the file \n${filePath}\n`,
+        : `\nProcessing! \nConverting JSON to XLSX for the file${isMultipleJSONFilesValid ? 's' : ''} \n${filePath}\n`,
     ),
   );
 };
@@ -88,6 +86,39 @@ const createPathByCheckingSpaceCharacter = (path: string[] | string): string => 
   }
 };
 
+const checkForMultipleJSONFileErrors = (filePath: string, process: NodeJS.Process) => {
+  const multipleJSON = filePath.split(',');
+
+  if (multipleJSON.length > 1) {
+    const isMultiplePathCorrect = multipleJSON.every(jsonFilePathName => jsonFilePathName.includes('.json'));
+
+    if (!isMultiplePathCorrect) {
+      const isOneJSONPath = multipleJSON.some(jsonFilePathName => jsonFilePathName.includes('.json'));
+
+      if (isOneJSONPath) {
+        error(red('One of the multiple path entries of the JSON file path is wrong.'));
+        process.exit(1);
+
+      } else if (!isOneJSONPath) {
+        error(red( 'Multiple file conversion only works for JSON files.'));
+        process.exit(1);
+      }
+    }
+  }
+};
+
+const isMultipleJSONFilePathsValid = (filePath: string): boolean => {
+  const multipleJSON = filePath.split(',');
+
+  return multipleJSON.length > 1 && multipleJSON.every(jsonFilePathName => jsonFilePathName.includes('.json'));
+};
+
+const getJSONFilePaths = (filePath: string) => {
+  return filePath
+    .split(',')
+    .map(JSONFilePath => JSONFilePath.trim());
+}
+
 export default {
   log,
   warn,
@@ -99,9 +130,12 @@ export default {
   isJSON,
   isXLSX,
   getSourceFileType,
-  stopProcessWithAMessage,
+  parseErrorMessage,
   createProcessMessageByType,
   addKeyConnectors,
   writeByCheckingParent,
   createPathByCheckingSpaceCharacter,
+  isMultipleJSONFilePathsValid,
+  checkForMultipleJSONFileErrors,
+  getJSONFilePaths,
 };
