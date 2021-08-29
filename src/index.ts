@@ -21,8 +21,7 @@ import utils from './utils';
     const isMultipleJSONFilePathsValid = utils.isMultipleJSONFilePathsValid(filePath);
 
     if (utils.isJSON(sourceFileType) || utils.isXLSX(sourceFileType) || isMultipleJSONFilePathsValid) {
-      utils.createProcessMessageByType(filePath, sourceFileType, (isMultipleJSONFilePathsValid && isMultipleJSONFilePaths));
-
+      utils.createProcessMessageByType(filePath, sourceFileType, isMultipleJSONFilePathsValid && isMultipleJSONFilePaths);
     } else {
       utils.checkForMultipleJSONFileErrors(filePath, process);
 
@@ -85,7 +84,7 @@ import utils from './utils';
     } else {
       const JSONFiles = utils.getJSONFilePaths(filePath);
 
-      for(const JSONFile of JSONFiles!) {
+      for (const JSONFile of JSONFiles!) {
         const sourceBuffer = await fs.promises.readFile(JSONFile);
         const sourceText = sourceBuffer.toString();
         const sourceData = JSON.parse(sourceText);
